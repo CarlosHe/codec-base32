@@ -1,0 +1,9 @@
+{
+	"name": "codec_base32",
+	"description": "Encode and decode base32 for Delphi",
+	"version": "1.0.0",
+	"homepage": "https://github.com/CarlosHe/codec-base32",
+	"mainsrc": "./src/",
+	"projects": [],
+	"dependencies": {}
+}
