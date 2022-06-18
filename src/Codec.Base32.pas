@@ -39,6 +39,7 @@ implementation
 
 class function TBase32.Decode(const AValue: TArray<Byte>): TArray<Byte>;
 var
+  LEncoded: TArray<Byte>;
   LBitLen: Integer;
   LLength: Integer;
   LCounter: Integer;
@@ -47,10 +48,13 @@ var
 begin
   if Length(AValue) = 0 then
     Exit;
+  LEncoded := AValue;
+  if LEncoded[High(LEncoded)] <> PadStr then
+    LEncoded := LEncoded + [PadStr];
   Result := [];
-  LLength := Length(AValue) - 1;
+  LLength := High(LEncoded);
   LBitLen := 5;
-  LBuffer := DecodeTable[AValue[0]];
+  LBuffer := DecodeTable[LEncoded[0]];
   LCounter := 0;
   while (LCounter < LLength) do
   begin
@@ -59,9 +63,9 @@ begin
       LBuffer := LBuffer shl 5;
       Inc(LBitLen, 5);
       Inc(LCounter);
-      if (AValue[LCounter] = PadStr) then
+      if (LEncoded[LCounter] = PadStr) then
         LCounter := LLength;
-      LBuffer := LBuffer + DecodeTable[AValue[LCounter]];
+      LBuffer := LBuffer + DecodeTable[LEncoded[LCounter]];
     end
     else
     begin
